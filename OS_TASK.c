@@ -598,8 +598,10 @@ INT8U  OSTaskStkChk (INT8U prio, OS_STK_DATA *pdata)
 #endif
     OS_TCB    *ptcb;
     OS_STK    *pchk;
+    OS_STK    *pchkRemain;
     INT32U     free;
     INT32U     size;
+    INT32U     remain;
 
 
 #if OS_ARG_CHK_EN > 0
@@ -609,6 +611,7 @@ INT8U  OSTaskStkChk (INT8U prio, OS_STK_DATA *pdata)
 #endif
     pdata->OSFree = 0;                                          /* Assume failure, set to 0 size       */
     pdata->OSUsed = 0;
+    pdata->OSRemain = 0;
     OS_ENTER_CRITICAL();
     if (prio == OS_PRIO_SELF) {                        /* See if check for SELF                        */
         prio = OSTCBCur->OSTCBPrio;
@@ -624,19 +627,28 @@ INT8U  OSTaskStkChk (INT8U prio, OS_STK_DATA *pdata)
     }
     free = 0;
     size = ptcb->OSTCBStkSize;
+    remain = 0;
     pchk = ptcb->OSTCBStkBottom;
+    pchkRemain = ptcb->OSTCBStkBottom;
     OS_EXIT_CRITICAL();
 #if OS_STK_GROWTH == 1
     while (*pchk++ == (OS_STK)0) {                    /* Compute the number of zero entries on the stk */
         free++;
     }
+    while (pchkRemain++ != OSTCBStkPtr) {             /* Compute the number of remain entries on the stk */
+        remain++;
+    }
 #else
     while (*pchk-- == (OS_STK)0) {
         free++;
     }
+    while (pchkRemain-- == OSTCBStkPtr) {
+        remain++;
+    }
 #endif
     pdata->OSFree = free * sizeof(OS_STK);            /* Compute number of free bytes on the stack     */
     pdata->OSUsed = (size - free) * sizeof(OS_STK);   /* Compute number of bytes used on the stack     */
+    pdata->OSRemain = remain * sizeof(OS_STK);        /* Compute number of bytes remained on the stack */
     return (OS_NO_ERR);
 }
 #endif

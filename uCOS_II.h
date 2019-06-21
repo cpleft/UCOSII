@@ -362,6 +362,7 @@ typedef struct {
 typedef struct {
     INT32U  OSFree;                    /* Number of free bytes on the stack                            */
     INT32U  OSUsed;                    /* Number of bytes used on the stack                            */
+    INT32U  OSRemain;                  /* Number of bytes remained                                     */
 } OS_STK_DATA;
 #endif
 
