@@ -52,7 +52,7 @@ INT8U  OSTaskChangePrio (INT8U oldprio, INT8U newprio)
     OS_TCB      *ptcb;
     INT8U        x;
     INT8U        y;
-    INT8U        bitx;
+    INT16U       bitx;
     INT8U        bity;
 
 
@@ -70,9 +70,9 @@ INT8U  OSTaskChangePrio (INT8U oldprio, INT8U newprio)
     } else {
         OSTCBPrioTbl[newprio] = (OS_TCB *)1;                    /* Reserve the entry to prevent others */
         OS_EXIT_CRITICAL();
-        y    = newprio >> 3;                                    /* Precompute to reduce INT. latency   */
+        y    = newprio >> 4;                                    /* Precompute to reduce INT. latency   */
         bity = OSMapTbl[y];
-        x    = newprio & 0x07;
+        x    = newprio & 0x0f;
         bitx = OSMapTbl[x];
         OS_ENTER_CRITICAL();
         if (oldprio == OS_PRIO_SELF) {                          /* See if changing self                */

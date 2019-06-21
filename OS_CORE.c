@@ -26,7 +26,8 @@
 *********************************************************************************************************
 */
 
-INT8U  const  OSMapTbl[]   = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
+INT16U  const  OSMapTbl[]   = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 
+                            0x0100, 0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000};
 
 /*
 *********************************************************************************************************
@@ -931,9 +932,9 @@ INT8U  OS_TCBInit (INT8U prio, OS_STK *ptos, OS_STK *pbos, INT16U id, INT32U stk
         ptcb->OSTCBDelReq    = OS_NO_ERR;
 #endif
 
-        ptcb->OSTCBY         = prio >> 3;                  /* Pre-compute X, Y, BitX and BitY          */
+        ptcb->OSTCBY         = prio >> 4;                  /* Pre-compute X, Y, BitX and BitY          */
         ptcb->OSTCBBitY      = OSMapTbl[ptcb->OSTCBY];
-        ptcb->OSTCBX         = prio & 0x07;
+        ptcb->OSTCBX         = prio & 0x0f;
         ptcb->OSTCBBitX      = OSMapTbl[ptcb->OSTCBX];
 
 #if OS_EVENT_EN > 0
