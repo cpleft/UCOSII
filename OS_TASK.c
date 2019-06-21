@@ -53,7 +53,7 @@ INT8U  OSTaskChangePrio (INT8U oldprio, INT8U newprio)
     INT8U        x;
     INT8U        y;
     INT8U        bitx;
-    INT8U        bity;
+    INT16U       bity;
 
 
 

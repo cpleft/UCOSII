@@ -334,7 +334,7 @@ typedef struct {
     INT16U         OSNMsgs;             /* Number of messages in message queue                         */
     INT16U         OSQSize;             /* Size of message queue                                       */
     INT8U          OSEventTbl[OS_EVENT_TBL_SIZE];  /* List of tasks waiting for event to occur         */
-    INT8U          OSEventGrp;          /* Group corresponding to tasks waiting for event to occur     */
+    INT16U         OSEventGrp;          /* Group corresponding to tasks waiting for event to occur     */
 } OS_Q_DATA;
 #endif
 
@@ -408,7 +408,7 @@ typedef struct os_tcb {
     INT8U          OSTCBX;             /* Bit position in group  corresponding to task priority (0..7) */
     INT8U          OSTCBY;             /* Index into ready table corresponding to task priority        */
     INT8U          OSTCBBitX;          /* Bit mask to access bit position in ready table               */
-    INT8U          OSTCBBitY;          /* Bit mask to access bit position in ready group               */
+    INT16U         OSTCBBitY;          /* Bit mask to access bit position in ready group               */
 
 #if OS_TASK_DEL_EN > 0
     BOOLEAN        OSTCBDelReq;        /* Indicates whether a task needs to delete itself              */
@@ -450,7 +450,7 @@ OS_EXT  INT8U             OSLockNesting;            /* Multitasking lock nesting
 OS_EXT  INT8U             OSPrioCur;                /* Priority of current task                        */
 OS_EXT  INT8U             OSPrioHighRdy;            /* Priority of highest priority task               */
 
-OS_EXT  INT8U             OSRdyGrp;                        /* Ready list group                         */
+OS_EXT  INT16U            OSRdyGrp;                        /* Ready list group                         */
 OS_EXT  INT8U             OSRdyTbl[OS_RDY_TBL_SIZE];       /* Table of tasks which are ready to run    */
 
 OS_EXT  BOOLEAN           OSRunning;                       /* Flag indicating that kernel is running   */
